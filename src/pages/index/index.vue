@@ -18,7 +18,7 @@
           <el-submenu index="2">
             <template slot="title">
               <i class="el-icon-menu"></i>
-              <span>菜单管理</span>
+              <span>系统管理</span>
             </template>
             <el-menu-item-group>
               <el-menu-item index="/menu">菜单管理</el-menu-item>

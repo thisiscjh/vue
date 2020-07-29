@@ -4,7 +4,8 @@
       <el-form :model="form">
         <el-form-item label="所属角色" label-width="80px">
           <el-select v-model="form.roleid">
-            <el-option label="请选择" value disabled></el-option>
+            <el-option label="--请选择--" value disabled></el-option>
+            <!-- 动态数据 -->
             <el-option
               v-for="item in roleList"
               :key="item.id"
@@ -13,12 +14,14 @@
             ></el-option>
           </el-select>
         </el-form-item>
+
         <el-form-item label="用户名" label-width="80px">
-          <el-input v-model="form.username" autocomplete="off"></el-input>
+          <el-input v-model="form.username"></el-input>
         </el-form-item>
         <el-form-item label="密码" label-width="80px">
           <el-input v-model="form.password" show-password></el-input>
         </el-form-item>
+
         <el-form-item label="状态" label-width="80px">
           <el-switch v-model="form.status" :active-value="1" :inactive-value="2"></el-switch>
         </el-form-item>
@@ -34,21 +37,22 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import {
-  reqStratorAdd,
-  reqStratorDetail,
-  reqStratorUpdate,
+  reqManageAdd,
+  reqManageDetail,
+  reqManageUpdate,
 } from "../../../util/request";
 import { successAlert, warningAlert } from "../../../util/alert";
 export default {
   props: ["info"],
+  components: {},
   computed: {
     ...mapGetters({
       roleList: "role/list",
     }),
   },
-  components: {},
   data() {
     return {
+      //提交给后端的数据
       form: {
         roleid: "",
         username: "",
@@ -57,12 +61,19 @@ export default {
       },
     };
   },
+  mounted() {
+    //如果之前menu的list没有请求，就发请求，请求你过了，就不发了
+    if (this.roleList.length === 0) {
+      this.reqRoleList();
+    }
+  },
   methods: {
     ...mapActions({
       reqRoleList: "role/reqList",
-      reqStratorList: "strator/reqList",
+      reqManageList: "strator/reqList",
       reqTotal: "strator/reqTotal",
     }),
+    //置空
     empty() {
       this.form = {
         roleid: "",
@@ -71,49 +82,53 @@ export default {
         status: 1,
       };
     },
+    //取消
     cancel() {
       this.info.show = false;
       if (!this.info.isAdd) {
         this.empty();
       }
     },
+    //添加
     add() {
-      reqStratorAdd(this.form).then((res) => {
-        console.log(res);
+      //发起添加请求
+      reqManageAdd(this.form).then((res) => {
         if (res.data.code == 200) {
           successAlert(res.data.msg);
-          this.empty(), this.cancel();
-          this.reqStratorList();
+          //清空
+          this.empty();
+          //弹框消失
+          this.cancel();
+          //重新获取角色列表数据
+          this.reqManageList();
+          //重新获取总的数量
           this.reqTotal();
         } else {
           warningAlert(res.data.msg);
         }
       });
     },
+    //获取一条数据
     getDetail(id) {
-      reqStratorDetail({ uid: id }).then((res) => {
+      //ajax
+      reqManageDetail({ uid: id }).then((res) => {
         this.form = res.data.list;
         this.form.password = "";
       });
     },
+    //点击了修改
     update() {
-      reqStratorUptate(this.form).then((res) => {
+      reqManageUpdate(this.form).then((res) => {
         if (res.data.code == 200) {
           successAlert("修改成功");
           this.empty();
           this.cancel();
-          this.reqStratorList();
-          this.reqTotal();
+          this.reqManageList();
         } else {
           warningAlert(res.data.msg);
         }
       });
     },
-  },
-  mounted() {
-    if (this.roleList.length == 0) {
-      this.reqRoleList();
-    }
   },
 };
 </script>

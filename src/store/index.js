@@ -7,6 +7,9 @@ import actions from "./actions"
 import menu from "./modules/menu"
 import role from "./modules/role"
 import strator from "./modules/strator"
+import goods from "./modules/goods"
+import spec from "./modules/spec"
+import manage from "./modules/manage"
 export default new Vuex.Store({
     state,
     mutations,
@@ -15,7 +18,10 @@ export default new Vuex.Store({
     modules:{
         menu,
         role,
-        strator
+        strator,
+        goods,
+        spec,
+        manage
 
     }
 })

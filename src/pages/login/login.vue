@@ -2,8 +2,8 @@
   <div class="login">
     <div class="con">
       <h3>登录</h3>
-      <el-input class="input" v-model="name" placeholder="账号"></el-input>
-      <el-input class="input" v-model="pass" placeholder="密码" show-password></el-input>
+      <el-input class="input" v-model="user.username" placeholder="账号"></el-input>
+      <el-input class="input" v-model="user.password" placeholder="密码" show-password></el-input>
       <div class="button">
        <el-button  type="primary" @click="login">登录</el-button>  
       </div>
@@ -11,17 +11,25 @@
   </div>
 </template>
 <script>
+import {reqLogin} from "../../util/request"
+import {successAlert,warningAlert} from "../../util/alert"
 export default {
   components: {},
   data() {
     return {
-        name:"",
-        pass:""
+      user:{
+        username:"",
+        password:""
+      }
+        
     };
   },
   methods: {
       login(){
-          this.$router.push("/")
+          // this.$router.push("/")
+             reqLogin(this.user).then(res=>{
+              
+             })  
       }
   },
   mounted() {},

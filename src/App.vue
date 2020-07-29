@@ -15,4 +15,9 @@ mounted(){},
 .el-button {
   margin-top: 10px;
 }
+.btn{
+  float: left;
+  margin-left: 30px;
+}
+
 </style>

@@ -1,9 +1,13 @@
 <template>
-  <div class="add">
+  <div>
     <el-table :data="list" style="width: 100%">
-      <el-table-column prop="id" label="用户编号" width="180"></el-table-column>
-      <el-table-column prop="username" label="用户名" width="180"></el-table-column>
-      <el-table-column prop="rolename" label="所属角色" width="180"></el-table-column>
+      <el-table-column prop="id" label="规格编号" width="180"></el-table-column>
+      <el-table-column prop="specsname" label="规格名称" width="180"></el-table-column>
+      <el-table-column label="规格属性" width="180">
+         <template slot-scope="scope">
+           <el-tag v-for="item in scope.row.attrs" :key="item">{{item}}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="状态">
         <template slot-scope="scope">
           <el-button v-if="scope.row.status==1" type="primary">启用</el-button>
@@ -12,8 +16,8 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" @click="edit(scope.row.uid)">编辑</el-button>
-          <del-btn class="btn" @confirm="del(scope.row.uid)"></del-btn>
+          <el-button type="primary" @click="edit(scope.row.id)">编辑</el-button>
+          <del-btn @confirm="del(scope.row.id)"></del-btn>
         </template>
       </el-table-column>
     </el-table>
@@ -25,15 +29,15 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
-import { reqManageDelete } from "../../../util/request";
+import { reqSpecDelete } from "../../../util/request";
 import { successAlert, warningAlert } from "../../../util/alert";
 export default {
   components: {},
   computed: {
     ...mapGetters({
-      list: "strator/list",
-      total:"strator/total",
-       size:"strator/size"
+      list: "spec/list",
+      total:"spec/total",
+       size:"spec/size"
     }),
   },
   data() {
@@ -41,18 +45,19 @@ export default {
   },
   methods: {
     ...mapActions({
-      reqList: "strator/reqList",
-      reqTotal:"strator/reqTotal",
-      changePage:"strator/changePage"
+      reqList: "spec/reqList",
+      reqTotal:"spec/reqTotal",
+      changePage:"spec/changePage"
     }),
     edit(id) {
       this.$emit("edit", id);
     },
     //删除
     del(id) {
-      reqManageDelete({ uid: id }).then((res) => {
+      reqSpecDelete({ id: id }).then((res) => {
         if (res.data.code == 200) {
           successAlert("删除成功");
+          
           this.reqList();
           this.reqTotal()
         } else {
@@ -67,18 +72,10 @@ export default {
     }
   },
   mounted() {
-    this.reqList()
-    this.reqTotal();
-   
+      this.reqTotal();
+    this.reqList();
   },
 };
 </script>
 <style scoped>
-.btn{
-  float: left;
-  
-} .el-button{
-  float: left;
-  margin-right: 30px;
-  }
 </style>
