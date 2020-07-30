@@ -10,6 +10,8 @@ import strator from "./modules/strator"
 import goods from "./modules/goods"
 import spec from "./modules/spec"
 import manage from "./modules/manage"
+import member from "./modules/member"
+import banner from "./modules/banner"
 export default new Vuex.Store({
     state,
     mutations,
@@ -21,7 +23,9 @@ export default new Vuex.Store({
         strator,
         goods,
         spec,
-        manage
+        manage,
+        member,
+        banner
 
     }
 })

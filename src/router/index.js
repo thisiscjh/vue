@@ -40,8 +40,8 @@ export default new Router({
           name:"商品管理列表"
         },
         {
-          path:"members",//会员管理
-          component:()=>import("../pages/members/members.vue"),
+          path:"member",//会员管理
+          component:()=>import("../pages/member/member.vue"),
           name:"会员管理列表"
         },
         {

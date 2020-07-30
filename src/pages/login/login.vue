@@ -28,7 +28,7 @@ export default {
       login(){
           // this.$router.push("/")
              reqLogin(this.user).then(res=>{
-              
+              console.log();
              })  
       }
   },

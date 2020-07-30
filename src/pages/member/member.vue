@@ -1,7 +1,6 @@
 <template>
   <div>
     <!-- 添加弹框 -->
-    <el-button type="primary" @click="add">添加</el-button>
     <v-add :info="info" ref="add"></v-add>
     <v-list @edit="edit"></v-list>
   </div>
@@ -18,27 +17,19 @@ export default {
     return {
       info: {
         show: false,
-        title: "轮播图添加",
-        isAdd:true
+        title: "会员添加",
       },
     };
   },
   methods: {
-      add(){
-        this.info.show=true
-        this.info.title="分类添加"
-        this.info.isAdd=true
-    },
     edit(id){
       this.info.show=true;
-      this.info.title="轮播图编辑";
-      this.info.isAdd=false
+      this.info.title="会员编辑";
       this.$refs.add.getDetail(id);
       console.log(this.$refs.add.getDetail(id))
     }
   },
-  mounted() {
-  },
+  mounted() {},
 };
 </script>
 <style scoped>
